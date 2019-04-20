@@ -564,6 +564,12 @@ feature_test_macros = sorted([ add_version_header(x) for x in [
    "depends": "!defined(_LIBCPP_HAS_NO_THREADS)",
    "internal_depends": "!defined(_LIBCPP_HAS_NO_THREADS)",
    },
+  {"name": "__cpp_lib_string_view_regex",
+   "values": {
+     "c++2a": 201901L,
+   },
+   "headers": ["regex"],
+   },
 ]], key=lambda tc: tc["name"])
 
 def get_std_dialects():
