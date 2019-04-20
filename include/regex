@@ -7188,12 +7188,12 @@ regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
 template <class _Traits, class _CharT, class _ST, class _SA>
 inline _LIBCPP_INLINE_VISIBILITY
 basic_string<_CharT, _ST, _SA>
-regex_replace(const basic_string<_CharT, _ST, _SA> __s,
+regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
               const basic_regex<_CharT, _Traits>& __e,
 			  const _CharT* __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
-    basic_string<_CharT, _ST> __r;
+    basic_string<_CharT, _ST, _SA> __r;
     _VSTD::regex_replace(back_inserter(__r), __s.begin(), __s.end(), __e, __fmt, __flags);
     return __r;
 }
