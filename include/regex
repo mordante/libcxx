@@ -5251,7 +5251,7 @@ public:
     bool
     operator==(const sub_match& __x,
                const value_type& __y)
-        {return __x.compare(string_view_type(addressof(__y) ,1)) == 0;}
+        {return __x.compare(string_view_type(addressof(__y), 1)) == 0;}
 
     friend _LIBCPP_INLINE_VISIBILITY
     bool
@@ -5263,7 +5263,7 @@ public:
     bool
     operator<(const sub_match& __x,
               const value_type& __y)
-        {return __x.compare(string_view_type(addressof(__y) ,1)) < 0;}
+        {return __x.compare(string_view_type(addressof(__y), 1)) < 0;}
 
     friend _LIBCPP_INLINE_VISIBILITY
     bool
@@ -5669,6 +5669,7 @@ operator<=(const sub_match<_BiIter>& __x,
     return !(__y < __x);
 }
 #endif
+
 template <class _CharT, class _ST, class _BiIter>
 inline _LIBCPP_INLINE_VISIBILITY
 basic_ostream<_CharT, _ST>&
@@ -7103,7 +7104,7 @@ regex_replace(_OutputIterator __output_iter,
               const basic_regex<_CharT, _Traits>& __e, const _CharT* __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
-    return _VSTD::regex_replace(__output_iter, __first, __last, __e, basic_string_view<_CharT>(__fmt) , __flags);
+    return _VSTD::regex_replace(__output_iter, __first, __last, __e, basic_string_view<_CharT>(__fmt), __flags);
 }
 
 template <class _OutputIterator, class _BidirectionalIterator,
@@ -7116,7 +7117,7 @@ regex_replace(_OutputIterator __output_iter,
               const basic_string<_CharT, _ST, _SA>& __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
-    return _VSTD::regex_replace(__output_iter, __first, __last, __e, basic_string_view<_CharT>(__fmt) , __flags);
+    return _VSTD::regex_replace(__output_iter, __first, __last, __e, basic_string_view<_CharT>(__fmt), __flags);
 }
 
 #else
