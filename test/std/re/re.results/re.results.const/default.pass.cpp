@@ -23,6 +23,9 @@ test()
     std::match_results<const CharT*> m;
     assert(m.size() == 0);
     assert(m.str() == std::basic_string<CharT>());
+#if defined(__cpp_string_view_view_regex)
+    assert(m.view() == std::basic_string_view<CharT>());
+#endif
     assert(m.get_allocator() == std::allocator<std::sub_match<const CharT*> >());
 }
 

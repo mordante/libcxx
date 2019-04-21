@@ -32,6 +32,9 @@ test(const Allocator& a)
     SM m1(std::move(m0));
     assert(m1.size() == 0);
     assert(m1.str() == std::basic_string<CharT>());
+#if defined(__cpp_string_view_view_regex)
+    assert(m1.view() == std::basic_string_view<CharT>());
+#endif
     assert(m1.get_allocator() == a);
 }
 

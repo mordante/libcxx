@@ -6,35 +6,35 @@
 //
 //===----------------------------------------------------------------------===//
 
+// UNSUPPORTED: c++03, c++11, c++14, c++17
+
 // <regex>
 
 // class match_results<BidirectionalIterator, Allocator>
 
-// allocator_type get_allocator() const;
+// string_view_type str(size_type sub = 0) const;
 
 #include <regex>
 #include <cassert>
-
 #include "test_macros.h"
-#include "test_allocator.h"
 
-template <class CharT, class Allocator>
 void
-test(const Allocator& a)
+test()
 {
-    std::match_results<const CharT*, Allocator> m(a);
-    assert(m.size() == 0);
-    assert(m.str() == std::basic_string<CharT>());
-#if defined(__cpp_lib_string_view_regex)
-    assert(m.view() == std::basic_string_view<CharT>());
-#endif
-    assert(m.get_allocator() == a);
+    std::match_results<const char*> m;
+    const char s[] = "abcdefghijk";
+    assert(std::regex_search(s, m, std::regex("cd((e)fg)hi")));
+    assert(m.str() == std::string_view(m[0]));
+    assert(m.str(0) == std::string_view(m[0]));
+    assert(m.str(1) == std::string_view(m[1]));
+    assert(m.str(2) == std::string_view(m[2]));
+    assert(m.str(3) == std::string_view(m[3]));
+    assert(m.str(4) == std::string_view(m[4]));
 }
 
 int main(int, char**)
 {
-    test<char>(test_allocator<std::sub_match<const char*> >(3));
-    test<wchar_t>(test_allocator<std::sub_match<const wchar_t*> >(3));
+    test();
 
   return 0;
 }

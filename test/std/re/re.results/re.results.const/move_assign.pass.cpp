@@ -29,6 +29,9 @@ test(const Allocator& a)
     m1 = std::move(m0);
     assert(m1.size()          == 0);
     assert(m1.str()           == std::basic_string<CharT>());
+#if defined(__cpp_lib_string_view_regex)
+    assert(m1.view() == std::basic_string_view<CharT>());
+#endif
     if (std::allocator_traits<Allocator>::propagate_on_container_move_assignment::value)
         assert(m1.get_allocator() == a);
     else
