@@ -226,7 +226,9 @@ __cpp_lib_void_t                                        201411L <type_traits>
 // # define __cpp_lib_is_constant_evaluated                201811L
 // # define __cpp_lib_list_remove_return_type              201806L
 // # define __cpp_lib_ranges                               201811L
-# define __cpp_lib_string_view_regex                    201901L
+# if !defined(_LIBCPP_NO_STRING_VIEW_REGEX)
+#   define __cpp_lib_string_view_regex                  201901L
+# endif
 // # define __cpp_lib_three_way_comparison                 201711L
 #endif
 
