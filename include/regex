@@ -999,7 +999,7 @@ public:
     typedef _CharT                       char_type;
     typedef basic_string<char_type>      string_type;
 #if defined(__cpp_lib_string_view_regex)
-	typedef basic_string_view<char_type> string_view_type;
+    typedef basic_string_view<char_type> string_view_type;
 #endif
     typedef locale                       locale_type;
     typedef ctype_base::mask             char_class_type;
@@ -7067,7 +7067,7 @@ _OutputIterator
 regex_replace(_OutputIterator __output_iter,
               _BidirectionalIterator __first, _BidirectionalIterator __last,
               const basic_regex<_CharT, _Traits>& __e,
-			  basic_string_view<_CharT, _ST> __fmt,
+              basic_string_view<_CharT, _ST> __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     typedef regex_iterator<_BidirectionalIterator, _CharT, _Traits> _Iter;
@@ -7184,13 +7184,26 @@ regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
                         __fmt.c_str(), __flags);
     return __r;
 }
-
+#if defined(__cpp_lib_string_view_regex)
+template <class _Traits, class _CharT, class _ST, class _SA, class _FST>
+inline _LIBCPP_INLINE_VISIBILITY
+basic_string<_CharT, _ST, _SA>
+regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
+              const basic_regex<_CharT, _Traits>& __e,
+              basic_string_view<_CharT, _FST> __fmt,
+              regex_constants::match_flag_type __flags = regex_constants::match_default)
+{
+    basic_string<_CharT, _ST, _SA> __r;
+    _VSTD::regex_replace(back_inserter(__r), __s.begin(), __s.end(), __e, __fmt, __flags);
+    return __r;
+}
+#endif
 template <class _Traits, class _CharT, class _ST, class _SA>
 inline _LIBCPP_INLINE_VISIBILITY
 basic_string<_CharT, _ST, _SA>
 regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
               const basic_regex<_CharT, _Traits>& __e,
-			  const _CharT* __fmt,
+              const _CharT* __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     basic_string<_CharT, _ST, _SA> __r;
@@ -7199,55 +7212,29 @@ regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
 }
 
 #if defined(__cpp_lib_string_view_regex)
-template <class _Traits, class _CharT, class _ST, class _FST>
-inline _LIBCPP_INLINE_VISIBILITY
-basic_string<_CharT, _ST>
-regex_replace(basic_string_view<_CharT, _ST> __sv,
-              const basic_regex<_CharT, _Traits>& __e,
-			  basic_string_view<_CharT, _FST> __fmt,
-              regex_constants::match_flag_type __flags = regex_constants::match_default)
-{
-    basic_string<_CharT, _ST> __r;
-    _VSTD::regex_replace(back_inserter(__r), __sv.begin(), __sv.end(), __e, __fmt, __flags);
-    return __r;
-}
-
-template <class _Traits, class _CharT, class _ST, class _SA, class _FST>
-inline _LIBCPP_INLINE_VISIBILITY
-basic_string<_CharT, _ST, _SA>
-regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
-              const basic_regex<_CharT, _Traits>& __e,
-			  basic_string_view<_CharT, _FST> __fmt,
-              regex_constants::match_flag_type __flags = regex_constants::match_default)
-{
-    basic_string<_CharT, _ST, _SA> __r;
-    _VSTD::regex_replace(back_inserter(__r), __s.begin(), __s.end(), __e, __fmt, __flags);
-    return __r;
-}
-
-template <class _Traits, class _CharT, class _FST>
-inline _LIBCPP_INLINE_VISIBILITY
-basic_string<_CharT>
-regex_replace(const _CharT* __s,
-              const basic_regex<_CharT, _Traits>& __e,
-			  basic_string_view<_CharT, _FST> __fmt,
-              regex_constants::match_flag_type __flags = regex_constants::match_default)
-{
-    basic_string<_CharT> __r;
-    _VSTD::regex_replace(back_inserter(__r), __s, __s + char_traits<_CharT>::length(__s), __e, __fmt, __flags);
-    return __r;
-}
-
 template <class _Traits, class _CharT, class _ST, class _FST, class _FSA>
 inline _LIBCPP_INLINE_VISIBILITY
 basic_string<_CharT, _ST>
 regex_replace(basic_string_view<_CharT, _ST> __s,
               const basic_regex<_CharT, _Traits>& __e,
-			  const basic_string<_CharT, _FST, _FSA>& __fmt,
+              const basic_string<_CharT, _FST, _FSA>& __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     basic_string<_CharT, _ST> __r;
     _VSTD::regex_replace(back_inserter(__r), __s.begin(), __s.end(), __e, __fmt, __flags);
+    return __r;
+}
+
+template <class _Traits, class _CharT, class _ST, class _FST>
+inline _LIBCPP_INLINE_VISIBILITY
+basic_string<_CharT, _ST>
+regex_replace(basic_string_view<_CharT, _ST> __sv,
+              const basic_regex<_CharT, _Traits>& __e,
+              basic_string_view<_CharT, _FST> __fmt,
+              regex_constants::match_flag_type __flags = regex_constants::match_default)
+{
+    basic_string<_CharT, _ST> __r;
+    _VSTD::regex_replace(back_inserter(__r), __sv.begin(), __sv.end(), __e, __fmt, __flags);
     return __r;
 }
 
@@ -7256,7 +7243,7 @@ inline _LIBCPP_INLINE_VISIBILITY
 basic_string<_CharT, _ST>
 regex_replace(basic_string_view<_CharT, _ST> __sv,
               const basic_regex<_CharT, _Traits>& __e,
-			  const _CharT* __fmt,
+              const _CharT* __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     basic_string<_CharT, _ST> __r;
@@ -7279,6 +7266,21 @@ regex_replace(const _CharT* __s,
                         __fmt.c_str(), __flags);
     return __r;
 }
+
+#if defined(__cpp_lib_string_view_regex)
+template <class _Traits, class _CharT, class _FST>
+inline _LIBCPP_INLINE_VISIBILITY
+basic_string<_CharT>
+regex_replace(const _CharT* __s,
+              const basic_regex<_CharT, _Traits>& __e,
+              basic_string_view<_CharT, _FST> __fmt,
+              regex_constants::match_flag_type __flags = regex_constants::match_default)
+{
+    basic_string<_CharT> __r;
+    _VSTD::regex_replace(back_inserter(__r), __s, __s + char_traits<_CharT>::length(__s), __e, __fmt, __flags);
+    return __r;
+}
+#endif
 
 template <class _Traits, class _CharT>
 inline _LIBCPP_INLINE_VISIBILITY
