@@ -5689,7 +5689,11 @@ inline _LIBCPP_INLINE_VISIBILITY
 basic_ostream<_CharT, _ST>&
 operator<<(basic_ostream<_CharT, _ST>& __os, const sub_match<_BiIter>& __m)
 {
+#if defined(__cpp_lib_string_view_regex)
+    return __os << __m.view();
+#else
     return __os << __m.str();
+#endif
 }
 
 template <class _BidirectionalIterator, class _Allocator>
