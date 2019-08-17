@@ -998,9 +998,6 @@ struct _LIBCPP_TEMPLATE_VIS regex_traits
 public:
     typedef _CharT                       char_type;
     typedef basic_string<char_type>      string_type;
-#if defined(__cpp_lib_string_view_regex)
-    typedef basic_string_view<char_type> string_view_type;
-#endif
     typedef locale                       locale_type;
     typedef ctype_base::mask             char_class_type;
 
@@ -2512,9 +2509,6 @@ public:
     typedef _CharT                              value_type;
     typedef _Traits                             traits_type;
     typedef typename _Traits::string_type       string_type;
-#if defined(__cpp_lib_string_view_regex)
-    typedef typename _Traits::string_view_type  string_view_type;
-#endif
     typedef regex_constants::syntax_option_type flag_type;
     typedef typename _Traits::locale_type       locale_type;
 
