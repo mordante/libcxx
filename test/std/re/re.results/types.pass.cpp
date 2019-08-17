@@ -23,9 +23,13 @@
 //     typedef Allocator                                         allocator_type;
 //     typedef typename iterator_traits<BidirectionalIterator>::value_type char_type;
 //     typedef basic_string<char_type>                           string_type;
-//     typedef basic_string_view<char_type>                      string_view_type;
+//     typedef conditional_t<ContiguousIterator<_BidirectionalIterator>, basic_string_view<char_type>, string_type> string_view_type;
 
+#include <array>
+#include <deque>
+#include <list>
 #include <regex>
+#include <span>
 #include <type_traits>
 #include "test_macros.h"
 
@@ -44,7 +48,30 @@ test()
     static_assert((std::is_same<typename MR::char_type, CharT>::value), "");
     static_assert((std::is_same<typename MR::string_type, std::basic_string<CharT> >::value), "");
 #if defined(__cpp_lib_string_view_regex)
-    static_assert((std::is_same<typename MR::string_view_type, std::basic_string_view<CharT> >::value), "");
+    static_assert(std::is_same_v<typename MR::string_view_type, std::basic_string_view<CharT>>);
+    static_assert(std::is_same_v<
+        typename std::match_results<typename std::basic_string<CharT>::const_iterator>::string_view_type,
+        std::basic_string_view<CharT>>);
+    static_assert(std::is_same_v<
+        typename std::match_results<typename std::basic_string_view<CharT>::const_iterator>::string_view_type,
+        std::basic_string_view<CharT>>);
+    static_assert(std::is_same_v<
+        typename std::match_results<typename std::array<CharT,42>::const_iterator>::string_view_type,
+        std::basic_string_view<CharT>>);
+    static_assert(std::is_same_v<
+        typename std::match_results<typename std::vector<CharT>::const_iterator>::string_view_type,
+        std::basic_string_view<CharT>>);
+    static_assert(std::is_same_v<
+        typename std::match_results<typename std::span<CharT>::const_iterator>::string_view_type,
+        std::basic_string_view<CharT>>);
+#ifdef __cpp_lib_concepts
+    static_assert(std::is_same_v<
+        typename std::match_results<typename std::deque<CharT>::const_iterator>::string_view_type,
+        std::basic_string<CharT>>);
+#endif
+    static_assert(std::is_same_v<
+        typename std::match_results<typename std::list<CharT>::const_iterator>::string_view_type,
+        std::basic_string<CharT>>);
 #endif
 }
 

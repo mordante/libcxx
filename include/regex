@@ -765,6 +765,7 @@ typedef regex_token_iterator<wstring::const_iterator> wsregex_token_iterator;
 #include <utility>
 #include <iterator>
 #include <string>
+#include <type_traits>
 #include <memory>
 #include <vector>
 #include <deque>
@@ -781,6 +782,14 @@ _LIBCPP_PUSH_MACROS
 #define _LIBCPP_REGEX_COMPLEXITY_FACTOR 4096
 
 _LIBCPP_BEGIN_NAMESPACE_STD
+
+#if !defined(__cpp_lib_concepts)
+// Hack to emulate the concept, should be removed once concepts are available.
+// It uses the random_access_iterator_tag instead of the continues_iterator_tag
+// since the latter is not available yet. This breaks tests using a deque.
+template <class _BiIter>
+_LIBCPP_INLINE_VAR _LIBCPP_CONSTEXPR bool ContiguousIterator = is_same<typename iterator_traits<_BiIter>::iterator_category, random_access_iterator_tag>::value;
+#endif
 
 namespace regex_constants
 {
@@ -4861,7 +4870,7 @@ public:
     typedef typename iterator_traits<iterator>::difference_type difference_type;
     typedef basic_string<value_type>                            string_type;
 #if defined(__cpp_lib_string_view_regex)
-    typedef basic_string_view<value_type>                       string_view_type;
+    typedef conditional_t<ContiguousIterator<_BidirectionalIterator>, basic_string_view<value_type>, string_type> string_view_type;
 #endif
 
     bool matched;
@@ -4878,19 +4887,30 @@ public:
 #if defined(__cpp_lib_string_view_regex)
     _LIBCPP_INLINE_VISIBILITY
     string_view_type view() const
-        {return matched
-            ? string_view_type(
-                    _VSTD::addressof(*this->first),
-                    _VSTD::distance(this->first, this->second))
-            : string_view_type();}
+        {if constexpr(ContiguousIterator<_BidirectionalIterator>)
+            return matched
+                ? string_view_type(
+                        _VSTD::addressof(*this->first),
+                        _VSTD::distance(this->first, this->second))
+                : string_view_type();
+            else
+                return str();
+        }
 #endif
     _LIBCPP_INLINE_VISIBILITY
     operator string_type() const
         {return str();}
 #if defined(__cpp_lib_string_view_regex)
+#if defined(__cpp_lib_concepts)
     _LIBCPP_INLINE_VISIBILITY
-    operator string_view_type() const
+    operator string_view_type() const requires ContiguousIterator<_BidirectionalIterator>
         {return view();}
+#else
+    template<class  T = _BidirectionalIterator>
+    _LIBCPP_INLINE_VISIBILITY
+    operator enable_if_t<ContiguousIterator<T>, string_view_type> () const
+        {return  view();}
+#endif
 #endif
 
 #if defined(__cpp_lib_string_view_regex)
@@ -5697,7 +5717,8 @@ public:
     typedef typename iterator_traits<_BidirectionalIterator>::value_type char_type;
     typedef basic_string<char_type>                           string_type;
 #if defined(__cpp_lib_string_view_regex)
-    typedef basic_string_view<char_type>                      string_view_type;
+    //typedef conditional_t<ContiguousIterator<_BidirectionalIterator>, basic_string_view<char_type>, string_type> string_view_type;
+    typedef typename sub_match<_BidirectionalIterator>::string_view_type string_view_type;
 #endif
 
     // construct/copy/destroy:
