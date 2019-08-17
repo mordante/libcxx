@@ -2584,9 +2584,9 @@ public:
         }
 
 #if defined(__cpp_lib_string_view_regex)
-    template <class _ST>
+    template <class _SVT>
         _LIBCPP_INLINE_VISIBILITY
-        explicit basic_regex(basic_string_view<value_type, _ST> __p,
+        explicit basic_regex(basic_string_view<value_type, _SVT> __p,
                              flag_type __f = regex_constants::ECMAScript)
         : __flags_(__f), __marked_count_(0), __loop_count_(0), __open_count_(0),
           __end_(0)
@@ -2634,9 +2634,9 @@ public:
         basic_regex& operator=(const basic_string<value_type, _ST, _SA>& __p)
         {return assign(__p);}
 #if defined(__cpp_lib_string_view_regex)
-    template <class _ST>
+    template <class _SVT>
         _LIBCPP_INLINE_VISIBILITY
-        basic_regex& operator=(basic_string_view<value_type, _ST> __p)
+        basic_regex& operator=(basic_string_view<value_type, _SVT> __p)
         {return assign(__p);}
 #endif
 
@@ -2662,11 +2662,11 @@ public:
             {return assign(__s.begin(), __s.end(), __f);}
 
 #if defined(__cpp_lib_string_view_regex)
-    template <class _ST>
+    template <class _SVT>
         _LIBCPP_INLINE_VISIBILITY
-        basic_regex& assign(basic_string_view<value_type, _ST> __s,
+        basic_regex& assign(basic_string_view<value_type, _SVT> __sv,
                             flag_type __f = regex_constants::ECMAScript)
-            {return assign(__s.begin(), __s.end(), __f);}
+            {return assign(__sv.begin(), __sv.end(), __f);}
 #endif
     template <class _InputIterator>
         _LIBCPP_INLINE_VISIBILITY
@@ -5062,89 +5062,89 @@ public:
 
     // String_view
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
-    operator==(basic_string_view<value_type, _ST> __x,
+    operator==(basic_string_view<value_type, _SVT> __x,
                const sub_match& __y)
         {return __y.compare(__x) == 0;}
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
-    operator!=(basic_string_view<value_type, _ST> __x,
+    operator!=(basic_string_view<value_type, _SVT> __x,
                const sub_match& __y)
         {return  !(__x == __y); }
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
-    operator<(basic_string_view<value_type, _ST> __x,
+    operator<(basic_string_view<value_type, _SVT> __x,
               const sub_match& __y)
         {return __y.compare(__x) > 0;}
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
-    operator>(basic_string_view<value_type, _ST> __x,
+    operator>(basic_string_view<value_type, _SVT> __x,
               const sub_match& __y)
         {return __y < __x;}
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
-    operator<=(basic_string_view<value_type, _ST> __x,
+    operator<=(basic_string_view<value_type, _SVT> __x,
                const sub_match& __y)
         {return !(__y < __x);}
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
-    operator>=(basic_string_view<value_type, _ST> __x,
+    operator>=(basic_string_view<value_type, _SVT> __x,
                const sub_match& __y)
         {return !(__x < __y);}
 
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
     operator==(const sub_match& __x,
-               basic_string_view<value_type, _ST> __y)
+               basic_string_view<value_type, _SVT> __y)
         {return __x.compare(__y) == 0;}
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
     operator!=(const sub_match& __x,
-               basic_string_view<value_type, _ST> __y)
+               basic_string_view<value_type, _SVT> __y)
         {return  !(__x == __y); }
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
     operator<(const sub_match& __x,
-              basic_string_view<value_type, _ST> __y)
+              basic_string_view<value_type, _SVT> __y)
         {return __x.compare(__y) < 0;}
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
     operator>(const sub_match& __x,
-              basic_string_view<value_type, _ST> __y)
+              basic_string_view<value_type, _SVT> __y)
         {return __y < __x;}
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
     operator<=(const sub_match& __x,
-               basic_string_view<value_type, _ST> __y)
+               basic_string_view<value_type, _SVT> __y)
         {return !(__y < __x);}
 
-    template <class _ST>
+    template <class _SVT>
     friend _LIBCPP_INLINE_VISIBILITY
     bool
     operator>=(const sub_match& __x,
-               basic_string_view<value_type, _ST> __y)
+               basic_string_view<value_type, _SVT> __y)
         {return !(__x < __y);}
 
     // const value_type*
@@ -5790,10 +5790,10 @@ public:
                regex_constants::match_flag_type __flags = regex_constants::format_default) const
             {return format(__output_iter, __fmt.data(), __fmt.data() + __fmt.size(), __flags);}
 #if defined(__cpp_lib_string_view_regex)
-    template <class _OutputIter, class _ST>
+    template <class _OutputIter, class _SVT>
         _LIBCPP_INLINE_VISIBILITY
         _OutputIter
-        format(_OutputIter __output_iter, basic_string_view<char_type, _ST> __fmt,
+        format(_OutputIter __output_iter, basic_string_view<char_type, _SVT> __fmt,
                regex_constants::match_flag_type __flags = regex_constants::format_default) const
             {return format(__output_iter, __fmt.data(), __fmt.data() + __fmt.size(), __flags);}
 #endif
@@ -6528,28 +6528,28 @@ regex_search(const basic_string<_Cp, _ST, _SA>&& __s,
 #endif
 
 #if defined(__cpp_lib_string_view_regex)
-template <class _ST, class _CharT, class _Traits>
+template <class _SVT, class _CharT, class _Traits>
 inline _LIBCPP_INLINE_VISIBILITY
 bool
-regex_search(basic_string_view<_CharT, _ST> __s,
+regex_search(basic_string_view<_CharT, _SVT> __sv,
              const basic_regex<_CharT, _Traits>& __e,
              regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     match_results<const _CharT*> __mc;
-    return __e.__search(__s.data(), __s.data() + __s.size(), __mc, __flags);
+    return __e.__search(__sv.data(), __sv.data() + __sv.size(), __mc, __flags);
 }
 
-template <class _ST, class _Allocator, class _CharT, class _Traits>
+template <class _SVT, class _Allocator, class _CharT, class _Traits>
 inline _LIBCPP_INLINE_VISIBILITY
 bool
-regex_search(basic_string_view<_CharT, _ST> __s,
-             match_results<typename basic_string_view<_CharT, _ST>::const_iterator, _Allocator>& __m,
+regex_search(basic_string_view<_CharT, _SVT> __sv,
+             match_results<typename basic_string_view<_CharT, _SVT>::const_iterator, _Allocator>& __m,
              const basic_regex<_CharT, _Traits>& __e,
              regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     match_results<const _CharT*> __mc;
-    bool __r = __e.__search(__s.data(), __s.data() + __s.size(), __mc, __flags);
-    __m.__assign(__s.begin(), __s.end(), __mc, __flags & regex_constants::__no_update_pos);
+    bool __r = __e.__search(__sv.data(), __sv.data() + __sv.size(), __mc, __flags);
+    __m.__assign(__sv.begin(), __sv.end(), __mc, __flags & regex_constants::__no_update_pos);
     return __r;
 }
 #endif
@@ -6619,15 +6619,15 @@ regex_match(const basic_string<_CharT, _ST, _SA>&& __s,
 #endif
 
 #if defined(__cpp_lib_string_view_regex)
-template <class _ST, class _Allocator, class _CharT, class _Traits>
+template <class _SVT, class _Allocator, class _CharT, class _Traits>
 inline _LIBCPP_INLINE_VISIBILITY
 bool
-regex_match(basic_string_view<_CharT, _ST> __s,
-            match_results<typename basic_string_view<_CharT, _ST>::const_iterator, _Allocator>& __m,
+regex_match(basic_string_view<_CharT, _SVT> __sv,
+            match_results<typename basic_string_view<_CharT, _SVT>::const_iterator, _Allocator>& __m,
             const basic_regex<_CharT, _Traits>& __e,
             regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
-    return _VSTD::regex_match(__s.begin(), __s.end(), __m, __e, __flags);
+    return _VSTD::regex_match(__sv.begin(), __sv.end(), __m, __e, __flags);
 }
 #endif
 
@@ -6651,14 +6651,14 @@ regex_match(const basic_string<_CharT, _ST, _SA>& __s,
 }
 
 #if defined(__cpp_lib_string_view_regex)
-template <class _ST, class _CharT, class _Traits>
+template <class _SVT, class _CharT, class _Traits>
 inline _LIBCPP_INLINE_VISIBILITY
 bool
-regex_match(basic_string_view<_CharT, _ST> __s,
+regex_match(basic_string_view<_CharT, _SVT> __sv,
             const basic_regex<_CharT, _Traits>& __e,
             regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
-    return _VSTD::regex_match(__s.begin(), __s.end(), __e, __flags);
+    return _VSTD::regex_match(__sv.begin(), __sv.end(), __e, __flags);
 }
 #endif
 
@@ -7081,12 +7081,12 @@ typedef regex_token_iterator<wstring_view::const_iterator> wsvregex_token_iterat
 
 #if defined(__cpp_lib_string_view_regex)
 template <class _OutputIterator, class _BidirectionalIterator,
-          class _Traits, class _CharT, class _ST>
+          class _Traits, class _CharT, class _SVT>
 _OutputIterator
 regex_replace(_OutputIterator __output_iter,
               _BidirectionalIterator __first, _BidirectionalIterator __last,
               const basic_regex<_CharT, _Traits>& __e,
-              basic_string_view<_CharT, _ST> __fmt,
+              basic_string_view<_CharT, _SVT> __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     typedef regex_iterator<_BidirectionalIterator, _CharT, _Traits> _Iter;
@@ -7204,12 +7204,12 @@ regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
     return __r;
 }
 #if defined(__cpp_lib_string_view_regex)
-template <class _Traits, class _CharT, class _ST, class _SA, class _FST>
+template <class _Traits, class _CharT, class _ST, class _SA, class _FSVT>
 inline _LIBCPP_INLINE_VISIBILITY
 basic_string<_CharT, _ST, _SA>
 regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
               const basic_regex<_CharT, _Traits>& __e,
-              basic_string_view<_CharT, _FST> __fmt,
+              basic_string_view<_CharT, _FSVT> __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     basic_string<_CharT, _ST, _SA> __r;
@@ -7234,22 +7234,22 @@ regex_replace(const basic_string<_CharT, _ST, _SA>& __s,
 template <class _Traits, class _CharT, class _ST, class _FST, class _FSA>
 inline _LIBCPP_INLINE_VISIBILITY
 basic_string<_CharT, _ST>
-regex_replace(basic_string_view<_CharT, _ST> __s,
+regex_replace(basic_string_view<_CharT, _ST> __sv,
               const basic_regex<_CharT, _Traits>& __e,
               const basic_string<_CharT, _FST, _FSA>& __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     basic_string<_CharT, _ST> __r;
-    _VSTD::regex_replace(back_inserter(__r), __s.begin(), __s.end(), __e, __fmt, __flags);
+    _VSTD::regex_replace(back_inserter(__r), __sv.begin(), __sv.end(), __e, __fmt, __flags);
     return __r;
 }
 
-template <class _Traits, class _CharT, class _ST, class _FST>
+template <class _Traits, class _CharT, class _ST, class _FSVT>
 inline _LIBCPP_INLINE_VISIBILITY
 basic_string<_CharT, _ST>
 regex_replace(basic_string_view<_CharT, _ST> __sv,
               const basic_regex<_CharT, _Traits>& __e,
-              basic_string_view<_CharT, _FST> __fmt,
+              basic_string_view<_CharT, _FSVT> __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     basic_string<_CharT, _ST> __r;
@@ -7287,12 +7287,12 @@ regex_replace(const _CharT* __s,
 }
 
 #if defined(__cpp_lib_string_view_regex)
-template <class _Traits, class _CharT, class _FST>
+template <class _Traits, class _CharT, class _FSVT>
 inline _LIBCPP_INLINE_VISIBILITY
 basic_string<_CharT>
 regex_replace(const _CharT* __s,
               const basic_regex<_CharT, _Traits>& __e,
-              basic_string_view<_CharT, _FST> __fmt,
+              basic_string_view<_CharT, _FSVT> __fmt,
               regex_constants::match_flag_type __flags = regex_constants::match_default)
 {
     basic_string<_CharT> __r;
