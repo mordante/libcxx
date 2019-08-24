@@ -17,7 +17,7 @@
 //     typedef typename iterator_traits<iterator>::value_type      value_type;
 //     typedef typename iterator_traits<iterator>::difference_type difference_type;
 //     typedef basic_string<value_type>                            string_type;
-//     typedef conditional_t<ContiguousIterator<_BidirectionalIterator>, basic_string_view<char_type>, string_type> string_view_type;
+//     typedef conditional_t<contiguous_iterator<_BidirectionalIterator>, basic_string_view<char_type>, string_type> string_view_type;
 //
 //     bool matched;
 //     ...

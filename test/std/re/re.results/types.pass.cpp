@@ -23,7 +23,7 @@
 //     typedef Allocator                                         allocator_type;
 //     typedef typename iterator_traits<BidirectionalIterator>::value_type char_type;
 //     typedef basic_string<char_type>                           string_type;
-//     typedef conditional_t<ContiguousIterator<_BidirectionalIterator>, basic_string_view<char_type>, string_type> string_view_type;
+//     typedef conditional_t<contiguous_iterator<_BidirectionalIterator>, basic_string_view<char_type>, string_type> string_view_type;
 
 #include <array>
 #include <deque>
